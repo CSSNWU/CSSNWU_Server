@@ -1,3 +1,7 @@
+//	to my dearest old wang,
+//	without whom 
+//	i could NEVER have accomplished all these piles of work. 
+
 /**
  * @(#)DatabaseService.java     	2013-10-5 上午9:54:41
  * Copyright never.All rights reserved
@@ -11,6 +15,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.cssnwu.businesslogicservice.resultenum.SYSTEM_STATE;
 import com.example.cssnwu.po.PO;
 
 /**
@@ -131,4 +136,16 @@ public interface DatabaseService extends Remote,Serializable{
      * @throws RemoteException
      */
     public void finish() throws RemoteException;
+    
+    /**
+     * Title: checkSystemState
+     * Description:检查系统状态，如果数据库中对应状态为0则用户不能进行操作，如果数据库中对应状态为1则用户可以操作
+     * @throws RemoteException
+     */
+    public boolean checkSystemState(SYSTEM_STATE system_state) throws RemoteException;
+    
+    public boolean setSystemState(SYSTEM_STATE systemState,
+    		boolean wantFunctionUsable) throws RemoteException;
+    
+    
 }

@@ -21,6 +21,11 @@ import com.example.cssnwu.databaseservice.DatabaseService;
 @SuppressWarnings("serial")
 public class DatabaseFactoryImpl extends UnicastRemoteObject implements DatabaseFactory{
     private static UserDatabaseService userDatabaseService;
+    private static CourseDatabaseService courseDatabaseService;
+    private static DeptPlanDatabaseService deptPlanDatabaseService;
+    private static StudentDatabaseService studentDatabaseService;
+    private static SchoolStrategyDatabaseService schoolStrategyDatabaseService;
+    private static TeacherDatabaseService teacherDatabaseService;
 	/**构造方法
 	 * @throws RemoteException
 	 */
@@ -35,8 +40,10 @@ public class DatabaseFactoryImpl extends UnicastRemoteObject implements Database
 	 */
 	@Override
 	public DatabaseService getCourseDatabaseService() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (courseDatabaseService == null) {
+			courseDatabaseService = new CourseDatabaseService();
+		}
+		return courseDatabaseService;
 	}
 
 	/* (non-Javadoc)
@@ -46,8 +53,10 @@ public class DatabaseFactoryImpl extends UnicastRemoteObject implements Database
 	 */
 	@Override
 	public DatabaseService getDeptPlanDatabaseService() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (deptPlanDatabaseService == null) {
+			deptPlanDatabaseService = new DeptPlanDatabaseService();
+		}
+		return deptPlanDatabaseService;
 	}
 
 	/* (non-Javadoc)
@@ -58,8 +67,10 @@ public class DatabaseFactoryImpl extends UnicastRemoteObject implements Database
 	@Override
 	public DatabaseService getSchoolStrategyDatabaseService()
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (schoolStrategyDatabaseService == null) {
+			schoolStrategyDatabaseService = new SchoolStrategyDatabaseService();
+		}
+		return schoolStrategyDatabaseService;
 	}
 
 	/* (non-Javadoc)
@@ -82,8 +93,10 @@ public class DatabaseFactoryImpl extends UnicastRemoteObject implements Database
 	 */
 	@Override
 	public DatabaseService getStudentDatabaseService() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (studentDatabaseService == null) {
+			studentDatabaseService = new StudentDatabaseService();
+		}
+		return studentDatabaseService;
 	}
 
 	/* (non-Javadoc)
@@ -93,8 +106,10 @@ public class DatabaseFactoryImpl extends UnicastRemoteObject implements Database
 	 */
 	@Override
 	public DatabaseService getTeacherDatabaseService() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (teacherDatabaseService == null) {
+			teacherDatabaseService = new TeacherDatabaseService();
+		}
+		return teacherDatabaseService;
 	}
 
 }

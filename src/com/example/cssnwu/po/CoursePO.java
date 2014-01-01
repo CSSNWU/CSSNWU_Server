@@ -20,17 +20,37 @@ import com.example.cssnwu.businesslogicservice.resultenum.CourseType;
  */
 @SuppressWarnings("serial")
 public class CoursePO extends PO{
-    String courseName;                   //课程名称   
+    String courseName;                   //课程名称   15651819563
     CourseType courseType;               //课程类型
     String courseIntro;                  //课程介绍
-    ArrayList<TeacherPO> teacherList;    //任课老师
-    String courseTime;                   //上课时间
-    String courseLocation;               //上课地点
+    ArrayList<String> teacherNameList;	 //任课老师姓名列表                    
+    ArrayList<Integer> teacherIDList;    //任课老师工号列表
+    String courseTime;                   //上课时间 (格式：“周几” + "/" +  “1~3”)
+    String courseLocation;               //上课地点 (格式："校区" + "/" + "教室")
     int credit;                          //学分
-    double score;                        //成绩
-    String establishTime;                  //开课时间
+    double score;                       //成绩
+    String establishTime;                //开课时间
     
+    public CoursePO(){
+    	
+    }
     
+    public CoursePO(int cno){
+    	super.id = cno;
+    }
+    
+    public CoursePO(int cno,String cName,CourseType cType,String cIntro,
+    		String cTime,String cLocation,int cCredit,String cStartTime){
+    	super.id = cno;
+    	this.courseName = cName;
+    	this.courseType = cType;
+    	this.courseIntro = cIntro;
+    	this.courseTime = cTime;
+    	this.courseLocation = cLocation;
+    	this.credit = cCredit;
+    	this.establishTime = cStartTime;
+    	
+    }
 	public String getCourseName() {
 		return courseName;
 	}
@@ -40,8 +60,12 @@ public class CoursePO extends PO{
 	public String getCourseIntro() {
 		return courseIntro;
 	}
-	public ArrayList<TeacherPO> getTeacherList() {
-		return teacherList;
+	public ArrayList<Integer> getTeacherIdList() {
+		return teacherIDList;
+	}
+	public ArrayList<String> getTeacherNameList()
+	{
+		return teacherNameList;
 	}
 	public String getCourseTime() {
 		return courseTime;
@@ -69,8 +93,11 @@ public class CoursePO extends PO{
 	public void setCourseIntro(String courseIntro) {
 		this.courseIntro = courseIntro;
 	}
-	public void setTeacherList(ArrayList<TeacherPO> teacherList) {
-		this.teacherList = teacherList;
+	public void setTeacherIdList(ArrayList<Integer> teacherList) {
+		this.teacherIDList = teacherList;
+	}
+	public void setTeacherNameList(ArrayList<String> teacherNameList){
+		this.teacherNameList=teacherNameList;
 	}
 	public void setCourseTime(String courseTime) {
 		this.courseTime = courseTime;
@@ -87,6 +114,4 @@ public class CoursePO extends PO{
 	public void setEstablishTime(String establishTime) {
 		this.establishTime = establishTime;
 	}
-    
-
 } 

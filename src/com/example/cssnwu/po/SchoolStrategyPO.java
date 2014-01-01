@@ -16,18 +16,23 @@ package com.example.cssnwu.po;
 @SuppressWarnings("serial")
 public class SchoolStrategyPO extends PO{
     int totalCredit;            //总学分
-    int minCreditPerSemester;   //每学期最低学分要求
-    String creditArrangeMent;   //学分安排
+    int[] minCreditPerSeason;   //每学年最低学分要求
     
     //getter方法
 	public int getTotalCredit() {
 		return totalCredit;
 	}
-	public int getMinCreditPerSemester() {
-		return minCreditPerSemester;
+	public int[] getMinCreditPerSeason() {
+		return minCreditPerSeason;
 	}
-	public String getCreditArrangeMent() {
-		return creditArrangeMent;
+	
+	//setter方法
+	public void setTotalCredit(int totalCredit) {
+		this.totalCredit = totalCredit;
+	}
+	public void setMinCreditPerSeason(int[] minCreditPerSeason) {
+		this.minCreditPerSeason = minCreditPerSeason;
 	}
     
+	
 }

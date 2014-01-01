@@ -7,11 +7,20 @@ package com.example.cssnwu.database;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.cssnwu.businesslogicservice.resultenum.SYSTEM_STATE;
+import com.example.cssnwu.businesslogicservice.resultenum.UserType;
 import com.example.cssnwu.databaseservice.DatabaseService;
 import com.example.cssnwu.po.PO;
+import com.example.cssnwu.po.StudentPO;
+import com.example.cssnwu.po.TeacherPO;
+import com.example.cssnwu.po.UserPO;
 
 /**
  *Class <code>UserDatabaseService.java</code> TODO
@@ -39,10 +48,73 @@ public class UserDatabaseService extends UnicastRemoteObject implements Database
 	 */
 	@Override
 	public PO find(int id) throws RemoteException {
+		PO ret = null;
+		DBManip.connect();
 		// TODO 此处添加数据库操作的代码 
-		return null;
-	}
+		try{
+			Statement stmt = DBManip.getConn().createStatement();
 
+			String sql1 = "select * from student where sno = '"+id +"'";
+			ResultSet rs1 = stmt.executeQuery(sql1);
+			System.out.println("look for student ");
+			while(rs1.next()){
+				System.out.println("student exist");
+				if(rs1.getString("isLogin").equals("1")){
+					ret = new  StudentPO(Integer.parseInt(rs1.getString("sno")),
+							rs1.getString("name"),
+							rs1.getString("password"),
+							true,
+							UserType.Student
+							);
+					break;
+				}
+				if(rs1.getString("isLogin").equals("0")){
+					System.out.println(rs1.getString("password"));
+					ret = new  StudentPO(Integer.parseInt(rs1.getString("sno")),
+							rs1.getString("name"),
+							rs1.getString("password"),
+							false,
+							UserType.Student
+							);
+					System.out.println(rs1.getString("password"));
+					break;
+				}
+			}
+			
+			String sql2 = "select * from teacher where tno = '"+id+"'";
+			ResultSet rs2 = stmt.executeQuery(sql2);
+			System.out.println("look for teacher");
+			while(rs2.next()){
+				System.out.println("teacher exist");
+				if(rs2.getString("isLogin").equals("1")){
+					ret = new  TeacherPO(
+							rs2.getString("name"),
+							rs2.getString("password"),
+							true,
+							UserType.Teacher
+							);
+					break;
+				}
+				if(rs2.getString("isLogin").equals("0")){
+					ret = new  TeacherPO(
+							rs2.getString("name"),
+							rs2.getString("password"),
+							false,
+							UserType.Teacher
+							);
+					break;
+				}
+			}
+						
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		DBManip.close();
+		
+		System.out.println(((UserPO)ret).getPassword());
+		System.out.println(((UserPO)ret).isLogin());
+		return ret;
+	}
 	/* (non-Javadoc)
 	 * Title: find
 	 * Description:通过关键字查询UserPO
@@ -83,6 +155,11 @@ public class UserDatabaseService extends UnicastRemoteObject implements Database
 	@Override
 	public boolean update(PO po) throws RemoteException {
 		// TODO 此处添加数据库操作的代码 
+		DBManip.connect();
+//		try{
+//			Statement stmt = DBManip.getConn().createStatement();
+//			String sql = 
+//		}
 		return false;
 	}
 
@@ -94,7 +171,29 @@ public class UserDatabaseService extends UnicastRemoteObject implements Database
 	@Override
 	public boolean update(PO po, String attr, Object value)
 			throws RemoteException {
-		// TODO 此处添加数据库操作的代码 
+		DBManip.connect();
+		try{
+			Statement stmt = DBManip.getConn().createStatement();
+
+			String sql = "update student set " + attr +" = '"+ (String)value+
+					"' where sno = '"+po.getId()+"'";
+			stmt = DBManip.getConn().createStatement();
+			stmt.execute(sql);
+			
+			sql = "update teacher set " + attr +" = '"+ (String)value+
+					"' where tno = '"+po.getId()+"'";
+			stmt = DBManip.getConn().createStatement();
+			stmt.execute(sql);
+			
+			return true;
+
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			DBManip.close();
+		}
+		
+		
 		return false;
 	}
 
@@ -168,7 +267,61 @@ public class UserDatabaseService extends UnicastRemoteObject implements Database
 	@Override
 	public void finish() throws RemoteException {
 	}
+	
+	
+	@Override
+	public boolean checkSystemState(SYSTEM_STATE system_state) throws RemoteException {
+		// TODO Auto-generated method stub
+		boolean systemStateChangeable = false;
+		DBManip.connect();
+		try{
+			Statement stmt = DBManip.getConn().createStatement();
+			String sql = "select * from systemState where systemFunction = '"+system_state+"'";
+			ResultSet rs = stmt.executeQuery(sql);
+			if(rs.next()){
+				if(rs.getInt("state")==1){
+					systemStateChangeable = true;
+				}else if(rs.getInt("state")==0){
+					systemStateChangeable = false;
+				}
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		DBManip.close();
+		return systemStateChangeable;
+	}
 
+	public boolean setSystemState(SYSTEM_STATE systemState,boolean wantThisFunctionUsable) throws RemoteException {
+		boolean updateSystemStateSuccess = false;
+		DBManip.connect();
+		try{
+			Statement stmt = DBManip.getConn().createStatement();
+			String sql;  
+			if(wantThisFunctionUsable){
+				sql = "update systemstate set state = '1' where systemFunction = '"+systemState+"'"; 
+			}else {
+				sql = "update systemstate set state = '0' where systemFunction = '"+systemState+"'"; 
+			}
+			stmt.execute(sql);
+			updateSystemStateSuccess = true;
+		}catch(SQLException e){
+			e.printStackTrace();
+			System.out.println("捕捉到SQLException！！！");
+		}
+		
+		DBManip.close();
+		return updateSystemStateSuccess;
+	}
 
+	public static void main(String[] args) throws RemoteException{
+		UserDatabaseService uds = new UserDatabaseService();
+		StudentPO spo = new StudentPO(111160126, "zhuyuanfu", "1", false, UserType.Student);
+		System.out.println(uds.update(spo, "password", "123456"));
+		
+		uds.setSystemState(SYSTEM_STATE.dropCourse, true);
+	}
 
+	
 }

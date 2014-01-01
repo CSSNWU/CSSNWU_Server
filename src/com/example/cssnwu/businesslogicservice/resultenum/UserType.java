@@ -13,5 +13,5 @@ package com.example.cssnwu.businesslogicservice.resultenum;
  * @since JDK1.7
  */
 public enum UserType {
-    Student
+    Student,SchoolTeacher,DepartmentTeacher,Teacher
 }

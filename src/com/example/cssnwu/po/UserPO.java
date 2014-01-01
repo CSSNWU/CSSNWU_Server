@@ -48,5 +48,19 @@ public class UserPO extends PO{
 	public UserType getUserType() {
 		return userType;
 	}
+	
+	//setter·½·¨
+	public void setUserName(String a){
+		this.userName = a;
+	}
+	public void setPassword(String a){
+		this.password = a;
+	}
+	public void setIsLogin(boolean a){
+		this.isLogin = a;
+	}
+	public void setUserType(UserType a){
+		this.userType = a;
+	}
     
 }

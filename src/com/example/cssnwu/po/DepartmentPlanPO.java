@@ -6,7 +6,6 @@
 package com.example.cssnwu.po;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.example.cssnwu.businesslogicservice.resultenum.Department;
 
@@ -18,15 +17,11 @@ import com.example.cssnwu.businesslogicservice.resultenum.Department;
  * @since JDK1.7
  */
 @SuppressWarnings("serial")
-public class DepartmentPlanPO extends PO{
-	Date date;                           //年份
-	Department department;               //院系
-    ArrayList<CoursePO> courseList;      //课程安排
-    
+public class DepartmentPlanPO extends	 PO{
+	Department department;              			//院系
+    ArrayList<CoursePO> courseList;     			//课程安排
+    public int minCourseCredits[] = new int[4];	//每年最低学分
     //getter方法
-	public Date getDate() {
-		return date;
-	}
 	
 	public Department getDepartment(){
 		return department;
@@ -37,11 +32,7 @@ public class DepartmentPlanPO extends PO{
 	}
 
 	
-	//setter方法
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
+    //setter方法
 	public void setDepartment(Department department) {
 		this.department = department;
 	}

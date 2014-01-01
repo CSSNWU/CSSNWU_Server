@@ -22,6 +22,8 @@ public class TeacherPO extends UserPO{
 	Department department;                //院系（部门）
     ArrayList<Integer> courseList;       //开课课程编号列表
     
+    ArrayList<CoursePO> coursePOList;
+    
     /**构造方法
 	 * @param userName   用户名
 	 * @param password   密码
@@ -49,12 +51,31 @@ public class TeacherPO extends UserPO{
 		this.courseList = courseList;
 	}
 	
+	/**
+	 * 构造方法3（空构造方法）
+	 * 
+	 */
+	public TeacherPO(){
+		
+	}
+	/**
+	 * 构造方法4
+	 * @param id	工号
+	 * 
+	 * */
+	public TeacherPO(int id){
+		this.id = id;
+	}
+	
     //getter方法
 	public Department getDepartment() {
 		return department;
 	}
 	public ArrayList<Integer> getCourseList() {
 		return courseList;
+	}
+	public ArrayList<CoursePO> getCoursePOList(){
+		return this.coursePOList;
 	}
 
 	//setter方法
@@ -65,6 +86,8 @@ public class TeacherPO extends UserPO{
 	public void setCourseList(ArrayList<Integer> courseList) {
 		this.courseList = courseList;
 	}
-	
+	public void setCoursePOList(ArrayList<CoursePO> cPOList){
+		this.coursePOList = cPOList;
+	}
 	
 }

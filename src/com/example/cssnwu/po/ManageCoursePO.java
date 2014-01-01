@@ -22,7 +22,7 @@ public class ManageCoursePO extends PO{
     StudentPO studentPO;                 //管理课程学生
     Date date;                           //管理课程时间
     ManageCourseType manageCourseType;   //管理课程类型（选课/退选）
-    ArrayList<CoursePO> courseList;      //管理课程列表
+    ArrayList<CoursePO> courseList = new ArrayList<CoursePO>();      //管理课程列表
     
     //getter方法
 	public StudentPO getStudentPO() {
@@ -37,5 +37,19 @@ public class ManageCoursePO extends PO{
 	public ArrayList<CoursePO> getCourseList() {
 		return courseList;
 	}
-    
+	
+	//setter方法
+	public void setStudentPO(StudentPO studentPO) {
+		this.studentPO = studentPO;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public void setManageCourseType(ManageCourseType manageCourseType) {
+		this.manageCourseType = manageCourseType;
+	}
+	public void setCourseList(ArrayList<CoursePO> courseList) {
+		this.courseList = courseList;
+	}
+	
 }

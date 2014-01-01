@@ -5,9 +5,12 @@
  */
 package com.example.cssnwu.net;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
@@ -24,14 +27,21 @@ import com.example.cssnwu.databaseservice.DatabaseFactory;
  */
 public class ServerLaunch {
 	public static final String IP = "127.0.0.1";            //ipµØÖ·
-	public static final int PORT = 8888;                    //¶Ë¿ÚºÅ
+	public static final int PORT = 9999;                    //¶Ë¿ÚºÅ
 	private static DatabaseFactory databaseFactory = null;
 	
 	
-	public static void main(String args[]) {
-         new ServerLaunch().createRemote();
-
-    } 
+//	public static void main(String args[]) {
+//		 try {
+//			InetAddress inetAddress = InetAddress.getLocalHost();
+//			System.out.println("IP:" + inetAddress);
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//         new ServerLaunch().createRemote();
+//
+//    } 
 	
 	public void createRemote(){
         try {
@@ -67,5 +77,28 @@ public class ServerLaunch {
 		}
 		
 		return databaseFactory;
+	}
+	
+	public void close()  {
+		
+		if(databaseFactory != null) {
+			databaseFactory=null;
+			
+		}
+		try {
+			Naming.unbind("rmi://" + IP + ":" + PORT + "/cssnwu");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			
+		
 	}
 }
